@@ -14,6 +14,7 @@ def test_config() -> None:
     assert json.loads((APP / "config.json").read_text()) == {
         "delimiter": ";",
         "currency": "USD",
+        "encoding": "utf-8",
     }
 
 
@@ -41,7 +42,7 @@ def test_exporter_unchanged() -> None:
     source = (APP / "tools/export_report.py").read_bytes()
     assert (
         hashlib.sha256(source).hexdigest()
-        == "aab4544ca934831453616f1f852b570cf65e81d9e946f0f0a8d8bc361c4b117e"
+        == "131024f81584d19eb30e6b2896a449b172bdf4ee959794369b0e7cb63b3fb2e9"
     )
 
 

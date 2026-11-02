@@ -10,13 +10,10 @@ def main() -> None:
     app = Path(__file__).resolve().parents[1]
     config = json.loads((app / "config.json").read_text())
     totals: dict[str, Decimal] = {}
-    with (app / "data/orders.csv").open(newline="") as source:
+    with (app / "data/orders.csv").open(newline="", encoding=config["encoding"]) as source:
         reader = csv.DictReader(source, delimiter=config["delimiter"])
         if reader.fieldnames != ["customer", "amount"]:
-            raise SystemExit(
-                f"Expected columns ['customer', 'amount']; found {reader.fieldnames!r}. "
-                "Check the input delimiter in config.json."
-            )
+            raise SystemExit("Required columns missing: customer, amount")
         for row in reader:
             customer = row["customer"]
             totals[customer] = totals.get(customer, Decimal("0")) + Decimal(row["amount"])
